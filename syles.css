@@ -1,0 +1,33 @@
+/* Copy Contents Plugin Styles */
+
+.copy-contents-button-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.copy-contents-file-list {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.copy-contents-file-item {
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--background-modifier-border-focus);
+}
+
+.copy-contents-file-item:last-child {
+    border-bottom: none;
+}
+
+.copy-contents-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
