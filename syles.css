@@ -25,6 +25,23 @@
     border-bottom: none;
 }
 
+.copy-contents-checkbox {
+    margin-right: 8px;
+}
+
+.copy-contents-file-info {
+    flex: 1;
+}
+
+.copy-contents-file-name {
+    font-weight: 500;
+}
+
+.copy-contents-file-details {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
 .copy-contents-actions {
     display: flex;
     justify-content: flex-end;
