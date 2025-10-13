@@ -67,11 +67,10 @@ class CopyContentsPlugin extends Plugin {
             })
         );
 
-        // Add commands with hotkeys
+        // Add commands without default hotkeys
         this.addCommand({
             id: 'copy-active-file-contents',
             name: 'Copy active file contents to clipboard',
-            hotkeys: [{ modifiers: ["Mod", "Shift"], key: "c" }],
             callback: async () => {
                 const activeFile = this.app.workspace.getActiveFile();
                 if (activeFile) {
@@ -85,7 +84,6 @@ class CopyContentsPlugin extends Plugin {
         this.addCommand({
             id: 'copy-current-folder-contents',
             name: 'Copy current folder contents to clipboard',
-            hotkeys: [{ modifiers: ["Mod", "Shift"], key: "f" }],
             callback: async () => {
                 const activeFile = this.app.workspace.getActiveFile();
                 if (activeFile) {
@@ -104,7 +102,6 @@ class CopyContentsPlugin extends Plugin {
         this.addCommand({
             id: 'export-active-file-contents',
             name: 'Export active file contents to file',
-            hotkeys: [{ modifiers: ["Mod", "Shift"], key: "e" }],
             callback: async () => {
                 const activeFile = this.app.workspace.getActiveFile();
                 if (activeFile) {
@@ -118,7 +115,6 @@ class CopyContentsPlugin extends Plugin {
         this.addCommand({
             id: 'export-current-folder-contents',
             name: 'Export current folder contents to file',
-            hotkeys: [{ modifiers: ["Mod", "Alt"], key: "e" }],
             callback: async () => {
                 const activeFile = this.app.workspace.getActiveFile();
                 if (activeFile) {
@@ -475,7 +471,7 @@ class FileSelectionModal extends Modal {
         const { contentEl } = this;
         contentEl.empty();
 
-        contentEl.createEl('h2', { text: 'Select Files to Copy' });
+        contentEl.createEl('h2', { text: 'Select files to copy' });
         contentEl.createEl('p', { 
             text: `Found ${this.files.length} files. Select which ones to include:`,
             cls: 'setting-item-description'
@@ -483,19 +479,16 @@ class FileSelectionModal extends Modal {
 
         // Select all/none buttons
         const buttonContainer = contentEl.createDiv({ cls: 'copy-contents-button-container' });
-        buttonContainer.style.marginBottom = '16px';
-        buttonContainer.style.display = 'flex';
-        buttonContainer.style.gap = '8px';
 
         const selectAllBtn = new ButtonComponent(buttonContainer)
-            .setButtonText('Select All')
+            .setButtonText('Select all')
             .onClick(() => {
                 this.files.forEach(file => this.selectedFiles.add(file));
                 this.updateCheckboxes();
             });
 
         const selectNoneBtn = new ButtonComponent(buttonContainer)
-            .setButtonText('Select None')
+            .setButtonText('Select none')
             .onClick(() => {
                 this.selectedFiles.clear();
                 this.updateCheckboxes();
@@ -503,23 +496,13 @@ class FileSelectionModal extends Modal {
 
         // File list container
         const fileListContainer = contentEl.createDiv({ cls: 'copy-contents-file-list' });
-        fileListContainer.style.maxHeight = '400px';
-        fileListContainer.style.overflowY = 'auto';
-        fileListContainer.style.border = '1px solid var(--background-modifier-border)';
-        fileListContainer.style.borderRadius = '4px';
-        fileListContainer.style.padding = '8px';
 
         // Create checkboxes for each file
         this.files.forEach(file => {
             const fileItem = fileListContainer.createDiv({ cls: 'copy-contents-file-item' });
-            fileItem.style.display = 'flex';
-            fileItem.style.alignItems = 'center';
-            fileItem.style.padding = '4px 0';
-            fileItem.style.borderBottom = '1px solid var(--background-modifier-border-focus)';
 
-            const checkbox = fileItem.createEl('input', { type: 'checkbox' });
+            const checkbox = fileItem.createEl('input', { type: 'checkbox', cls: 'copy-contents-checkbox' });
             checkbox.checked = this.selectedFiles.has(file);
-            checkbox.style.marginRight = '8px';
             checkbox.addEventListener('change', () => {
                 if (checkbox.checked) {
                     this.selectedFiles.add(file);
@@ -528,33 +511,25 @@ class FileSelectionModal extends Modal {
                 }
             });
 
-            const fileInfo = fileItem.createDiv();
-            fileInfo.style.flex = '1';
+            const fileInfo = fileItem.createDiv({ cls: 'copy-contents-file-info' });
             
-            const fileName = fileInfo.createEl('div', { text: file.name });
-            fileName.style.fontWeight = '500';
+            const fileName = fileInfo.createEl('div', { text: file.name, cls: 'copy-contents-file-name' });
 
             const fileDetails = fileInfo.createEl('div', { 
                 text: `${file.path} • ${(file.stat.size / 1024).toFixed(1)} KB`,
-                cls: 'setting-item-description'
+                cls: 'copy-contents-file-details'
             });
-            fileDetails.style.fontSize = '12px';
-            fileDetails.style.color = 'var(--text-muted)';
         });
 
         // Action buttons
         const actionContainer = contentEl.createDiv({ cls: 'copy-contents-actions' });
-        actionContainer.style.marginTop = '16px';
-        actionContainer.style.display = 'flex';
-        actionContainer.style.justifyContent = 'flex-end';
-        actionContainer.style.gap = '8px';
 
         new ButtonComponent(actionContainer)
             .setButtonText('Cancel')
             .onClick(() => this.close());
 
         new ButtonComponent(actionContainer)
-            .setButtonText('Copy Selected')
+            .setButtonText('Copy selected')
             .setCta()
             .onClick(() => {
                 this.onSubmit(Array.from(this.selectedFiles));
@@ -585,8 +560,6 @@ class CopyContentsSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        containerEl.createEl('h2', { text: 'Copy Contents Settings' });
-
         // Output format
         new Setting(containerEl)
             .setName('Output format')
@@ -601,8 +574,8 @@ class CopyContentsSettingTab extends PluginSettingTab {
                     await this.plugin.saveSettings();
                 }));
 
-        // Content options
-        containerEl.createEl('h3', { text: 'Content Options' });
+        // Content section
+        new Setting(containerEl).setName('Content').setHeading();
 
         new Setting(containerEl)
             .setName('Include file names')
@@ -635,8 +608,8 @@ class CopyContentsSettingTab extends PluginSettingTab {
                     await this.plugin.saveSettings();
                 }));
 
-        // File filtering
-        containerEl.createEl('h3', { text: 'File Filtering' });
+        // File filtering section
+        new Setting(containerEl).setName('File filtering').setHeading();
 
         new Setting(containerEl)
             .setName('Maximum file size (KB)')
@@ -664,8 +637,8 @@ class CopyContentsSettingTab extends PluginSettingTab {
                     await this.plugin.saveSettings();
                 }));
 
-        // Selection options
-        containerEl.createEl('h3', { text: 'File Selection' });
+        // File selection section
+        new Setting(containerEl).setName('File selection').setHeading();
 
         new Setting(containerEl)
             .setName('Show file selection modal')
@@ -691,8 +664,8 @@ class CopyContentsSettingTab extends PluginSettingTab {
                     }
                 }));
 
-        // Export options
-        containerEl.createEl('h3', { text: 'Export Options' });
+        // Export section
+        new Setting(containerEl).setName('Export').setHeading();
 
         new Setting(containerEl)
             .setName('Export folder')
@@ -714,16 +687,6 @@ class CopyContentsSettingTab extends PluginSettingTab {
                     this.plugin.settings.includeTimestamp = value;
                     await this.plugin.saveSettings();
                 }));
-
-        // Hotkeys info
-        containerEl.createEl('h3', { text: 'Hotkeys' });
-        const hotkeysDesc = containerEl.createDiv({ cls: 'setting-item-description' });
-        hotkeysDesc.innerHTML = `
-            <p><strong>Cmd/Ctrl + Shift + C:</strong> Copy active file contents</p>
-            <p><strong>Cmd/Ctrl + Shift + F:</strong> Copy current folder contents</p>
-            <p><strong>Cmd/Ctrl + Shift + E:</strong> Export active file contents</p>
-            <p><strong>Cmd/Ctrl + Alt + E:</strong> Export current folder contents</p>
-        `;
     }
 }
 
