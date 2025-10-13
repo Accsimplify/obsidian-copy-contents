@@ -8,7 +8,7 @@
 - **Multiple output formats** - Markdown, Plain Text, or JSON
 - **File selection modal** - Choose specific files from large folders
 - **Export to files** - Save contents as timestamped files in your vault
-- **Hotkeys** - Fast keyboard shortcuts for common actions
+- **Command palette integration** - Fast keyboard access to all functions
 - **Smart filtering** - Skip large files, select supported extensions
 
 ## Usage
@@ -18,11 +18,14 @@ Right-click any note or folder to see:
 - "Copy contents to clipboard" 
 - "Export contents to file"
 
-### Hotkeys
-- `Cmd/Ctrl + Shift + C` - Copy active file contents
-- `Cmd/Ctrl + Shift + F` - Copy current folder contents  
-- `Cmd/Ctrl + Shift + E` - Export active file to file
-- `Cmd/Ctrl + Alt + E` - Export current folder to file
+### Command Palette
+Press `Cmd/Ctrl + P` to access these commands:
+- "Copy active file contents to clipboard"
+- "Copy current folder contents to clipboard"  
+- "Export active file contents to file"
+- "Export current folder contents to file"
+
+*Note: No default hotkeys are set - you can assign your own in Settings → Hotkeys*
 
 ### Large Folders
 When copying folders with 10+ files, a selection modal appears letting you choose which files to include.
