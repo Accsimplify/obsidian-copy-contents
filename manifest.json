@@ -3,7 +3,7 @@
 	"name": "Copy Contents",
 	"version": "1.0.1",
 	"minAppVersion": "0.15.0",
-	"description": "Copy or export file and folder contents to clipboard or files - perfect for LLMs and document creation",
+	"description": "Copy or export file and folder contents to clipboard or files - perfect for LLMs and document creation.",
 	"author": "Richard Jones",
 	"authorUrl": "https://github.com/Accsimplify",
 	"fundingUrl": "https://buymeacoffee.com/accsimplify",
