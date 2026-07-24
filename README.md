@@ -1,98 +1,78 @@
-# Copy Contents Plugin
+# Copy Contents
 
-**Quickly copy or export file and folder contents to clipboard or files - perfect for pasting into LLMs, Word docs, or sharing research.**
+Copy or export the contents of an Obsidian file or folder in Markdown, plain text, or JSON format.
 
 ## Features
 
-- **Right-click context menu** - Copy file or folder contents instantly
-- **Multiple output formats** - Markdown, Plain Text, or JSON
-- **File selection modal** - Choose specific files from large folders
-- **Export to files** - Save contents as timestamped files in your vault
-- **Command palette integration** - Fast keyboard access to all functions
-- **Smart filtering** - Skip large files, select supported extensions
+- Copy a file or an entire folder from the file menu.
+- Export the same content to a file inside the vault.
+- Keep nested folder paths when combining files.
+- Select which files to include in larger folders.
+- Filter by extension and maximum file size.
+- Use Markdown, plain text, or structured JSON output.
+- Run every action from the command palette and assign your own hotkeys.
+
+Copy Contents works locally inside Obsidian. It does not send notes, usage data, or credentials over the network.
 
 ## Usage
 
-### Context Menu
-Right-click any note or folder to see:
-- "Copy contents to clipboard" 
-- "Export contents to file"
+Right-click a file or folder and choose a **Copy Contents** action. You can also open the command palette with `Ctrl+P` or `Cmd+P` and search for:
 
-### Command Palette
-Press `Cmd/Ctrl + P` to access these commands:
-- "Copy active file contents to clipboard"
-- "Copy current folder contents to clipboard"  
-- "Export active file contents to file"
-- "Export current folder contents to file"
+- Copy active file contents to clipboard
+- Copy current folder contents to clipboard
+- Export active file contents to file
+- Export current folder contents to file
 
-*Note: No default hotkeys are set - you can assign your own in Settings → Hotkeys*
-
-### Large Folders
-When copying folders with 10+ files, a selection modal appears letting you choose which files to include.
-
-## Output Examples
-
-### Markdown Format
-```markdown
-# Folder: Research Notes
-
-## paper1.md
-
-Content of first paper...
-
----
-
-## paper2.md
-
-Content of second paper...
-```
-
-### JSON Format
-```json
-{
-  "folder": "Research Notes",
-  "timestamp": "2025-06-30T10:30:00.000Z",
-  "fileCount": 2,
-  "totalSize": 5432,
-  "files": [
-    {
-      "name": "paper1.md",
-      "path": "paper1.md",
-      "size": 2048,
-      "content": "Content of first paper..."
-    }
-  ]
-}
-```
+For a large folder, the plugin opens a selection dialog before it processes the files.
 
 ## Settings
 
-Access via Settings → Community Plugins → Copy Contents:
+Open **Settings → Copy Contents** to configure:
 
-- **Output format** - Choose Markdown, Plain Text, or JSON
-- **File filtering** - Set size limits and supported extensions  
-- **File selection** - Configure when selection modal appears
-- **Export options** - Set export folder and filename format
-
-## Common Use Cases
-
-- **LLM research** - Copy multiple notes to paste into ChatGPT/Claude
-- **Document creation** - Export formatted content for Word/Google Docs
-- **Knowledge sharing** - Bundle related notes for colleagues
-- **Backup/archiving** - Export timestamped snapshots of folder contents
+- Output format
+- File names and folder headings
+- Separator between files
+- Supported extensions and maximum file size
+- File-selection threshold
+- Export folder and timestamped file names
 
 ## Installation
 
-Install via Obsidian's Community Plugins:
-1. Settings → Community Plugins → Browse
-2. Search "Copy Contents"
-3. Install and enable
+### Community Plugins
+
+Once Copy Contents is listed in the Obsidian community directory:
+
+1. Open **Settings → Community plugins → Browse**.
+2. Search for **Copy Contents**.
+3. Select **Install**, then **Enable**.
+
+### Manual installation
+
+1. Download `main.js`, `manifest.json`, and `styles.css` from the latest GitHub release.
+2. Put them in `<vault>/.obsidian/plugins/copy-contents/`.
+3. Reload Obsidian and enable **Copy Contents** under Community plugins.
+
+## Development
+
+This project requires Node.js 20 or later.
+
+```sh
+npm install
+npm run dev
+```
+
+Run all release checks with:
+
+```sh
+npm run validate
+```
+
+The version in `package.json`, `manifest.json`, and `versions.json` must match. Creating a Git tag runs the release workflow and prepares a draft GitHub release with the required Obsidian assets.
 
 ## Support
 
-- Report issues on [GitHub](https://github.com/Accsimplify/obsidian-copy-contents)
-- Questions? Check [Discussions](https://github.com/Accsimplify/obsidian-copy-contents/discussions)
+Use [GitHub Issues](https://github.com/Accsimplify/obsidian-copy-contents/issues) for bugs and feature requests.
 
 ## License
 
-MIT License - see LICENSE file for details.
+[MIT](LICENSE)
