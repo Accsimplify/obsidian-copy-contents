@@ -60,6 +60,13 @@ export function normalizeExportLocation(value: string): string {
 		.join("/") || "Exports";
 }
 
+export function parseFileExtensions(value: string): string[] {
+	return value
+		.split(",")
+		.map((extension) => extension.trim().toLowerCase().replace(/^\./, ""))
+		.filter((extension) => extension.length > 0);
+}
+
 export function isPathInsideFolder(path: string, folderPath: string): boolean {
 	const normalizedPath = path.replaceAll("\\", "/").replace(/^\/|\/$/g, "");
 	const normalizedFolder = folderPath.replaceAll("\\", "/").replace(/^\/|\/$/g, "");

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.3
+
+- Add searchable declarative settings for Obsidian 1.13 and later while
+  retaining the existing settings tab for Obsidian 1.12.
+- Add validation for numeric settings and file-extension filters.
+- Document that clipboard access is write-only, user-triggered, and local.
+
 ## 1.0.2
 
 - Restore a reproducible TypeScript build from the published plugin.

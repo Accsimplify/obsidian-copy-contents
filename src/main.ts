@@ -6,6 +6,7 @@ import {
 	Plugin,
 	PluginSettingTab,
 	Setting,
+	SettingDefinitionItem,
 	TFile,
 	TFolder,
 } from "obsidian";
@@ -20,6 +21,7 @@ import {
 	normalizeExportLocation,
 	outputExtension,
 	OutputFormat,
+	parseFileExtensions,
 	relativePathFromFolder,
 } from "./core";
 
@@ -396,6 +398,212 @@ class CopyContentsSettingTab extends PluginSettingTab {
 		super(app, copyContentsPlugin);
 	}
 
+	getSettingDefinitions(): SettingDefinitionItem[] {
+		return [
+			{
+				name: "Output format",
+				desc: "Choose how content is formatted when copied or exported.",
+				control: {
+					type: "dropdown",
+					key: "outputFormat",
+					defaultValue: DEFAULT_SETTINGS.outputFormat,
+					options: {
+						markdown: "Markdown",
+						plaintext: "Plain text",
+						json: "JSON",
+					},
+				},
+			},
+			{
+				type: "group",
+				heading: "Content",
+				items: [
+					{
+						name: "Include file names",
+						desc: "Add file names as headers.",
+						control: {
+							type: "toggle",
+							key: "includeFileNames",
+							defaultValue: DEFAULT_SETTINGS.includeFileNames,
+						},
+					},
+					{
+						name: "Include folder structure",
+						desc: "Add the folder name as the main header.",
+						control: {
+							type: "toggle",
+							key: "includeFolderStructure",
+							defaultValue: DEFAULT_SETTINGS.includeFolderStructure,
+						},
+					},
+					{
+						name: "Custom separator",
+						desc: "Text used between files in Markdown and plain text output.",
+						control: {
+							type: "text",
+							key: "customSeparator",
+							defaultValue: DEFAULT_SETTINGS.customSeparator,
+							placeholder: "---",
+							validate: (value) => value.length > 0
+								? undefined
+								: "Enter at least one character.",
+						},
+					},
+				],
+			},
+			{
+				type: "group",
+				heading: "File filtering",
+				items: [
+					{
+						name: "Maximum file size",
+						desc: "Skip files larger than the configured size, in KB.",
+						control: {
+							type: "number",
+							key: "maxFileSize",
+							defaultValue: DEFAULT_SETTINGS.maxFileSize,
+							placeholder: "1000",
+							min: 1,
+							step: 1,
+						},
+					},
+					{
+						name: "Supported file extensions",
+						desc: "Comma-separated file extensions to include.",
+						control: {
+							type: "text",
+							key: "fileExtensionsCsv",
+							placeholder: "md, txt, json",
+							validate: (value) => parseFileExtensions(value).length > 0
+								? undefined
+								: "Enter at least one file extension.",
+						},
+					},
+				],
+			},
+			{
+				type: "group",
+				heading: "File selection",
+				items: [
+					{
+						name: "Show file selection modal",
+						desc: "Choose files before processing a large folder.",
+						control: {
+							type: "toggle",
+							key: "showSelectionModal",
+							defaultValue: DEFAULT_SETTINGS.showSelectionModal,
+						},
+					},
+					{
+						name: "Selection threshold",
+						desc: "Number of files that opens the selection modal.",
+						control: {
+							type: "number",
+							key: "selectionThreshold",
+							defaultValue: DEFAULT_SETTINGS.selectionThreshold,
+							placeholder: "10",
+							min: 1,
+							step: 1,
+						},
+					},
+				],
+			},
+			{
+				type: "group",
+				heading: "Export",
+				items: [
+					{
+						name: "Export folder",
+						desc: "Vault folder where exported files are saved.",
+						control: {
+							type: "text",
+							key: "exportLocation",
+							defaultValue: DEFAULT_SETTINGS.exportLocation,
+							placeholder: "Exports",
+						},
+					},
+					{
+						name: "Include timestamp in file name",
+						desc: "Add a timestamp to exported file names.",
+						control: {
+							type: "toggle",
+							key: "includeTimestamp",
+							defaultValue: DEFAULT_SETTINGS.includeTimestamp,
+						},
+					},
+				],
+			},
+		];
+	}
+
+	getControlValue(key: string): unknown {
+		if (key === "fileExtensionsCsv") {
+			return this.copyContentsPlugin.settings.fileExtensions.join(", ");
+		}
+		return this.copyContentsPlugin.settings[key as keyof CopyContentsSettings];
+	}
+
+	async setControlValue(key: string, value: unknown): Promise<void> {
+		switch (key) {
+			case "outputFormat":
+				if (value === "markdown" || value === "plaintext" || value === "json") {
+					this.copyContentsPlugin.settings.outputFormat = value;
+				}
+				break;
+			case "includeFileNames":
+				if (typeof value === "boolean") {
+					this.copyContentsPlugin.settings.includeFileNames = value;
+				}
+				break;
+			case "includeFolderStructure":
+				if (typeof value === "boolean") {
+					this.copyContentsPlugin.settings.includeFolderStructure = value;
+				}
+				break;
+			case "customSeparator":
+				if (typeof value === "string" && value.length > 0) {
+					this.copyContentsPlugin.settings.customSeparator = value;
+				}
+				break;
+			case "maxFileSize":
+				if (typeof value === "number" && value >= 1) {
+					this.copyContentsPlugin.settings.maxFileSize = value;
+				}
+				break;
+			case "fileExtensionsCsv":
+				if (typeof value === "string") {
+					const extensions = parseFileExtensions(value);
+					if (extensions.length > 0) {
+						this.copyContentsPlugin.settings.fileExtensions = extensions;
+					}
+				}
+				break;
+			case "showSelectionModal":
+				if (typeof value === "boolean") {
+					this.copyContentsPlugin.settings.showSelectionModal = value;
+				}
+				break;
+			case "selectionThreshold":
+				if (typeof value === "number" && value >= 1) {
+					this.copyContentsPlugin.settings.selectionThreshold = value;
+				}
+				break;
+			case "exportLocation":
+				if (typeof value === "string") {
+					this.copyContentsPlugin.settings.exportLocation = normalizeExportLocation(value);
+				}
+				break;
+			case "includeTimestamp":
+				if (typeof value === "boolean") {
+					this.copyContentsPlugin.settings.includeTimestamp = value;
+				}
+				break;
+			default:
+				return;
+		}
+		await this.copyContentsPlugin.saveSettings();
+	}
+
 	display(): void {
 		const { containerEl } = this;
 		containerEl.empty();
@@ -463,10 +671,7 @@ class CopyContentsSettingTab extends PluginSettingTab {
 			.addText((text) => text
 				.setValue(this.copyContentsPlugin.settings.fileExtensions.join(","))
 				.onChange(async (value) => {
-					this.copyContentsPlugin.settings.fileExtensions = value
-						.split(",")
-						.map((extension) => extension.trim().toLowerCase().replace(/^\./, ""))
-						.filter((extension) => extension.length > 0);
+					this.copyContentsPlugin.settings.fileExtensions = parseFileExtensions(value);
 					await this.copyContentsPlugin.saveSettings();
 				}));
 
