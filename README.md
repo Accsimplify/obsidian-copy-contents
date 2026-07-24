@@ -14,6 +14,17 @@ Copy or export the contents of an Obsidian file or folder in Markdown, plain tex
 
 Copy Contents works locally inside Obsidian. It does not send notes, usage data, or credentials over the network.
 
+## Privacy and clipboard access
+
+Copy Contents accesses the system clipboard only when you explicitly choose a
+**Copy Contents** action. It writes the selected note content to the clipboard;
+it never reads existing clipboard content. The plugin has no network requests,
+analytics, or background clipboard monitoring.
+
+Clipboard contents may be visible to your operating system's clipboard history
+and to other applications. Use an **Export Contents** action instead when you do
+not want note content placed on the clipboard.
+
 ## Usage
 
 Right-click a file or folder and choose a **Copy Contents** action. You can also open the command palette with `Ctrl+P` or `Cmd+P` and search for:

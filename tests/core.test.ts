@@ -6,6 +6,7 @@ import {
 	formatContent,
 	isPathInsideFolder,
 	normalizeExportLocation,
+	parseFileExtensions,
 	relativePathFromFolder,
 	sanitizeExportBaseName,
 	stripMarkdown,
@@ -36,6 +37,11 @@ describe("folder paths", () => {
 	it("checks path boundaries rather than partial names", () => {
 		expect(isPathInsideFolder("Exports/note.md", "Exports")).toBe(true);
 		expect(isPathInsideFolder("Exports-old/note.md", "Exports")).toBe(false);
+	});
+
+	it("normalizes comma-separated file extensions", () => {
+		expect(parseFileExtensions(" .MD, txt, .JSON, ")).toEqual(["md", "txt", "json"]);
+		expect(parseFileExtensions(" , ")).toEqual([]);
 	});
 });
 

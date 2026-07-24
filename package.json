@@ -1,6 +1,6 @@
 {
   "name": "obsidian-copy-contents",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Copy or export file and folder contents in Markdown, plain text, or JSON formats.",
   "main": "main.js",
   "scripts": {

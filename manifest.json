@@ -1,7 +1,7 @@
 {
 	"id": "copy-contents",
 	"name": "Copy Contents",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"minAppVersion": "1.12.7",
 	"description": "Copy or export file and folder contents in Markdown, plain text, or JSON formats.",
 	"author": "Richard Jones",
