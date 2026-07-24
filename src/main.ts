@@ -234,7 +234,7 @@ export default class CopyContentsPlugin extends Plugin {
 			}
 		}
 
-		const folderName = folder.name || "Vault";
+		const folderName = folder.isRoot() ? "Vault" : folder.name;
 		const output = formatContent(this.settings, fileContents, folderName);
 		const totalSize = files.reduce((sum, file) => sum + file.stat.size, 0);
 		const summary = `${files.length} files (${this.sizeInKilobytes(totalSize)} KB) from "${folderName}"`;
