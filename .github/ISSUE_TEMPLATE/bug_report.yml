@@ -1,0 +1,55 @@
+name: Bug report
+description: Report reproducible incorrect behavior
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Use synthetic examples. Do not paste private note content, credentials,
+        vault names, or other personal data.
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Copy Contents version
+      placeholder: 1.0.3
+    validations:
+      required: true
+  - type: input
+    id: obsidian-version
+    attributes:
+      label: Obsidian version and platform
+      placeholder: 1.x, Windows/macOS/Linux/iOS/Android
+    validations:
+      required: true
+  - type: dropdown
+    id: action
+    attributes:
+      label: Action affected
+      options:
+        - Copy file
+        - Copy folder
+        - Export file
+        - Export folder
+        - Settings
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Use a small disposable vault and synthetic filenames/content.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual result
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Sanitized diagnostics
+      description: Remove note contents, paths, usernames, tokens, and other personal data.

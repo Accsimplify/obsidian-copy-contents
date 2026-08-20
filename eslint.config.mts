@@ -11,6 +11,7 @@ export default defineConfig(
 		"esbuild.config.mjs",
 		"version-bump.mjs",
 		"scripts/**/*.mjs",
+		".claude/hooks/**/*.mjs",
 	]),
 	{
 		languageOptions: {

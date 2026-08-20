@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+npm run validate
+npm run security:audit
