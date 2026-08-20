@@ -68,7 +68,8 @@ Once Copy Contents is listed in the Obsidian community directory:
 This project requires Node.js 20 or later.
 
 ```sh
-npm install
+npm ci
+npm run setup
 npm run dev
 ```
 
@@ -79,6 +80,8 @@ npm run validate
 ```
 
 The version in `package.json`, `manifest.json`, and `versions.json` must match. Creating a Git tag runs the release workflow and prepares a draft GitHub release with the required Obsidian assets.
+
+Contributor guidance and the project's local-first security boundaries are documented in [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
 
 ## Support
 

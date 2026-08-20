@@ -1,4 +1,10 @@
 node_modules/
+.npm-cache/
+coverage/
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
 *.map
 *.log
 .DS_Store
