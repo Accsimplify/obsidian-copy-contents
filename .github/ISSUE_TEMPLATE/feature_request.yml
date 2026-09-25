@@ -3,19 +3,51 @@ description: Propose a focused improvement
 title: "[Feature]: "
 labels: [enhancement]
 body:
+  - type: markdown
+    attributes:
+      value: >-
+        Copy Contents collects no usage data, so these answers are how we learn
+        what people need. Use synthetic examples; do not paste private note content.
+  - type: textarea
+    id: copying
+    attributes:
+      label: What were you trying to copy?
+      description: For example, one note, a folder, a note and the notes it links to.
+    validations:
+      required: true
+  - type: input
+    id: destination
+    attributes:
+      label: Where were you going to paste it?
+      description: For example, Claude, ChatGPT, Gemini, a document or an email.
+    validations:
+      required: true
   - type: textarea
     id: problem
     attributes:
-      label: Problem to solve
+      label: What was missing?
       description: Describe the workflow problem rather than only the proposed implementation.
     validations:
       required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Desktop or mobile?
+      options:
+        - Desktop
+        - Mobile
+        - Both
+    validations:
+      required: true
+  - type: input
+    id: size
+    attributes:
+      label: Approximate folder or vault size
+      placeholder: e.g. 40 notes in the folder, 2,000 in the vault
   - type: textarea
     id: proposal
     attributes:
       label: Proposed behavior
-    validations:
-      required: true
   - type: checkboxes
     id: boundaries
     attributes:

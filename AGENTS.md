@@ -32,3 +32,8 @@ The generated `main.js` is deliberately committed so CI can prove that the relea
 - A human maintainer reviews and merges every pull request.
 - Releases are separate maintainer operations. Versions must match in `package.json`, `manifest.json`, and `versions.json`; the Git tag must match that version exactly.
 - The release workflow creates a draft with attested `main.js`, `manifest.json`, and `styles.css`. A human inspects and publishes the draft.
+
+## Linear
+Team: Accural (ACC). Project: Copy Contents.
+Follow the Linear contract in your user-level instructions. If it is not loaded (cloud session or another machine), read the "Operating contract" section of Linear issue ACC-7 before starting non-trivial work.
+The Linear contract governs process only (issues, status, checkpoints). It never overrides the product boundaries or working rules in this file.
