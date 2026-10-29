@@ -2,6 +2,10 @@
 
 Copy or export the contents of an Obsidian file or folder in Markdown, plain text, or JSON format.
 
+![Copy folder contents: open the file menu, select notes, and paste the combined result](assets/copy-contents-demo.gif)
+
+Right-click a folder, choose the files to copy, then paste the combined notes. This six-second demonstration uses synthetic notes; file selection is enabled with a threshold of two files.
+
 ## Features
 
 - Copy a file or an entire folder from the file menu.
@@ -34,11 +38,11 @@ Right-click a file or folder and choose a **Copy Contents** action. You can also
 - Export active file contents to file
 - Export current folder contents to file
 
-For a large folder, the plugin opens a selection dialog before it processes the files.
+When file selection is enabled and the number of eligible files reaches the configured threshold, the plugin opens a dialog before reading their contents. Choose the files you want, then select **Copy selected** or **Export selected**.
 
 ## Settings
 
-Open **Settings → Copy Contents** to configure:
+After enabling the plugin, open **Settings** and select **Copy Contents** under Community plugins to configure:
 
 - Output format
 - File names and folder headings
@@ -51,7 +55,7 @@ Open **Settings → Copy Contents** to configure:
 
 ### Community Plugins
 
-Once Copy Contents is listed in the Obsidian community directory:
+Copy Contents is listed in the Obsidian community directory:
 
 1. Open **Settings → Community plugins → Browse**.
 2. Search for **Copy Contents**.
