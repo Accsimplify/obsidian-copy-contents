@@ -1,0 +1,10 @@
+* @Accsimplify
+
+/.github/ @Accsimplify
+/.claude/ @Accsimplify
+/AGENTS.md @Accsimplify
+/CLAUDE.md @Accsimplify
+/manifest.json @Accsimplify
+/package.json @Accsimplify
+/package-lock.json @Accsimplify
+/versions.json @Accsimplify

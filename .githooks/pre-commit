@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+npm run check:secrets
+npm run lint
+npm test
