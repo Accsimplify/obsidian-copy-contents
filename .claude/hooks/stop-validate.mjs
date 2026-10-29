@@ -30,8 +30,10 @@ if (status.stdout.trim().length === 0) {
 	process.exit(0);
 }
 
-const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
-const validation = spawnSync(npmCommand, ["run", "validate"], {
+const windows = process.platform === "win32";
+const npmCommand = windows ? (process.env.ComSpec || "cmd.exe") : "npm";
+const npmArgs = windows ? ["/d", "/s", "/c", "npm run validate"] : ["run", "validate"];
+const validation = spawnSync(npmCommand, npmArgs, {
 	cwd: event.cwd ?? process.cwd(),
 	encoding: "utf8",
 	stdio: "pipe",
@@ -40,6 +42,7 @@ const validation = spawnSync(npmCommand, ["run", "validate"], {
 
 if (validation.status !== 0) {
 	console.error("Claude cannot finish because npm run validate failed. Fix the failure or report the exact blocker.\n");
+	if (validation.error) console.error(validation.error.message);
 	console.error(validation.stdout);
 	console.error(validation.stderr);
 	process.exit(2);

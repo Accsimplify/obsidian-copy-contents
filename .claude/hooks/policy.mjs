@@ -1,4 +1,4 @@
-import { relative, resolve, sep } from "node:path";
+import { isAbsolute, relative, resolve, sep } from "node:path";
 
 const PROTECTED_PATHS = [
 	".claude/",
@@ -35,12 +35,12 @@ const BLOCKED_COMMANDS = [
 	{ pattern: /(?:^|\s)--no-verify(?:\s|$)/i, reason: "Repository verification hooks may not be bypassed." },
 ];
 
-const PROTECTED_SHELL_EDIT = /(?:>|>>|\b(?:set-content|add-content|out-file|sed\s+-i|perl\s+-pi|python(?:3)?\s+-c|node\s+-e)\b)[^\r\n]*(?:\.claude[\\/]|\.github[\\/]|\.githooks[\\/]|agents\.md|claude\.md|manifest\.json|package(?:-lock)?\.json|versions\.json|version-bump\.mjs)/i;
+const PROTECTED_SHELL_EDIT = /(?:>|>>|\b(?:set-content|add-content|out-file|sed\s+-i|perl\s+-pi|python(?:3)?\s+-c|node\s+-e)\b)[^\r\n]*(?:\.claude[\\/]|\.github[\\/]|\.githooks[\\/]|agents\.md|claude\.md|manifest\.json|package(?:-lock)?\.json|versions\.json|version-bump\.mjs|scripts[\\/](?:check-staged-secrets|setup-hooks|validate-release)\.mjs)/i;
 
 export function normalizeProjectPath(filePath, cwd = process.cwd()) {
 	const absolute = resolve(cwd, filePath);
 	const projectRelative = relative(cwd, absolute);
-	if (projectRelative.startsWith(`..${sep}`) || projectRelative === "..") {
+	if (isAbsolute(projectRelative) || projectRelative.startsWith(`..${sep}`) || projectRelative === "..") {
 		return `../${projectRelative.replaceAll(sep, "/")}`;
 	}
 	return projectRelative.replaceAll(sep, "/").toLowerCase();

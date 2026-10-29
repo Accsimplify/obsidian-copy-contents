@@ -17,3 +17,11 @@ assert.equal(classifyCommand("Get-Content .env.local").decision, "deny");
 assert.equal(classifyCommand("echo '{}' > package.json").decision, "ask");
 
 console.log("Claude hook policy tests passed.");
+
+// A protected path must not become writable merely by switching tools.
+for (const path of ["scripts/check-staged-secrets.mjs", "scripts/setup-hooks.mjs", "scripts/validate-release.mjs"]) {
+  assert.equal(classifyCommand(`echo harmless > ${path}`).decision, "ask", path);
+}
+if (process.platform === "win32") {
+  assert.equal(classifyFilePath("C:/outside.txt", "D:/repo").decision, "deny");
+}
